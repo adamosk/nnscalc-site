@@ -1,45 +1,626 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NNSCalc</title>
+    <title>NNSCalc - Calculator with History & Memory</title>
+    <meta name="description" content="A modern, sleek calculator application with enhanced memory functions and persistent history.">
+    <meta name="keywords" content="calculator, windows app, memory calculator, history calculator">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #0078d7;
+            --secondary-color: #005fa3;
+            --light-bg: #f9f9f9;
+            --dark-bg: #333;
+            --text-color: #333;
+            --light-text: #f9f9f9;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             line-height: 1.6;
-            color: #333;
-            max-width: 800px;
+            color: var(--text-color);
+            background-color: white;
+        }
+        
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin: 10px;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--secondary-color);
+            text-decoration: none;
+        }
+        
+        .hero-image {
+            margin-top: 40px;
+            max-width: 100%;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 50px;
+            color: var(--primary-color);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            padding: 30px;
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 15px;
+        }
+        
+        /* Screenshots Section */
+        .screenshots {
+            padding: 80px 0;
+            background-color: var(--light-bg);
+        }
+        
+        .theme-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .theme-tab {
+            padding: 10px 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+        
+        .theme-tab:first-child {
+            border-radius: 5px 0 0 5px;
+        }
+        
+        .theme-tab:last-child {
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .theme-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .screenshot-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .screenshot-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s;
+        }
+        
+        .screenshot-item:hover img {
+            transform: scale(1.03);
+        }
+        
+        .screenshot-caption {
+            padding: 15px;
+            background-color: white;
             text-align: center;
         }
-        h1 {
-            color: #0078d7;
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background-color: white;
         }
-        img {
-            max-width: 100%;
-            height: auto;
+        
+        .testimonial-card {
+            padding: 30px;
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-author {
+            font-weight: bold;
+        }
+        
+        /* FAQ Section */
+        .faq {
+            padding: 80px 0;
+            background-color: var(--light-bg);
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .faq-question {
+            padding: 20px;
+            background-color: white;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-answer {
+            padding: 20px;
+            background-color: var(--light-bg);
+            display: none;
+        }
+        
+        .faq-question.active + .faq-answer {
+            display: block;
+        }
+        
+        /* Download Section */
+        .download {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            padding: 40px 0;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--light-text);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             margin-top: 30px;
+        }
+        
+        /* Theme Toggle */
+        .theme-display {
+            display: none;
+        }
+        
+        .theme-display.active {
+            display: block;
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .feature-card {
+                padding: 20px;
+            }
+            
+            .screenshot-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>NNSCalc - Calculator with History & Memory</h1>
-    <p>A modern, sleek calculator application with enhanced memory functions and persistent history.</p>
-    
-    <p>Coming soon to Microsoft Store</p>
-    
-    <p>
-        <a href="https://get.microsoft.com/images/en-us%20dark.svg" target="_blank">
-            <img src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Get it from Microsoft" width="200"/>
-        </a>
-    </p>
-    
-    <div>
-        <img src="images/mainview-dark.png" alt="NNSCalc Main View" width="400" />
-    </div>
-    
-    <!-- No hidden verification or download links in the public repo -->
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">NNSCalc</div>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#screenshots">Screenshots</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#download">Download</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>NNSCalc - Calculator with History & Memory</h1>
+            <p>A modern, sleek calculator application built with advanced features to enhance your productivity.</p>
+            <a href="#download" class="cta-button">Get It Now</a>
+            <div>
+                <img src="images/mainview-dark.png" alt="NNSCalc Main View" class="hero-image" width="400">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3>Persistent History</h3>
+                    <p>Never lose track of your previous calculations. Review and reuse past calculations with ease.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-memory"></i>
+                    </div>
+                    <h3>Enhanced Memory</h3>
+                    <p>Store, recall, add to, and subtract from memory with advanced memory functions.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-th"></i>
+                    </div>
+                    <h3>Multiple Memory Slots</h3>
+                    <p>Save multiple values in different memory slots for quick access during complex calculations.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <h3>Light & Dark Themes</h3>
+                    <p>Beautiful, intuitive design with both light and dark themes to match your preferences.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-keyboard"></i>
+                    </div>
+                    <h3>Keyboard Shortcuts</h3>
+                    <p>Work efficiently with full keyboard support for faster calculations.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-thumbtack"></i>
+                    </div>
+                    <h3>Always-on-Top Mode</h3>
+                    <p>Keep the calculator visible while working in other applications.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section class="screenshots" id="screenshots">
+        <div class="container">
+            <h2 class="section-title">Screenshots</h2>
+            
+            <div class="theme-tabs">
+                <div class="theme-tab active" onclick="showTheme('dark')">Dark Theme</div>
+                <div class="theme-tab" onclick="showTheme('light')">Light Theme</div>
+            </div>
+            
+            <!-- Dark Theme Screenshots -->
+            <div id="dark-theme" class="theme-display active">
+                <div class="screenshot-grid">
+                    <div class="screenshot-item">
+                        <img src="images/mainview-dark.png" alt="Main Calculator - Dark">
+                        <div class="screenshot-caption">Main Calculator</div>
+                    </div>
+                    
+                    <div class="screenshot-item">
+                        <img src="images/history-dark.png" alt="Calculation History - Dark">
+                        <div class="screenshot-caption">Calculation History</div>
+                    </div>
+                    
+                    <div class="screenshot-item">
+                        <img src="images/memory-dark.png" alt="Memory Functions - Dark">
+                        <div class="screenshot-caption">Memory Functions</div>
+                    </div>
+                    
+                    <div class="screenshot-item">
+                        <img src="images/settings-dark.png" alt="Settings - Dark">
+                        <div class="screenshot-caption">Settings</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Light Theme Screenshots -->
+            <div id="light-theme" class="theme-display">
+                <div class="screenshot-grid">
+                    <div class="screenshot-item">
+                        <img src="images/mainview-light.png" alt="Main Calculator - Light">
+                        <div class="screenshot-caption">Main Calculator</div>
+                    </div>
+                    
+                    <div class="screenshot-item">
+                        <img src="images/history-light.png" alt="Calculation History - Light">
+                        <div class="screenshot-caption">Calculation History</div>
+                    </div>
+                    
+                    <div class="screenshot-item">
+                        <img src="images/memory-light.png" alt="Memory Functions - Light">
+                        <div class="screenshot-caption">Memory Functions</div>
+                    </div>
+                    
+                    <div class="screenshot-item">
+                        <img src="images/settings-light.png" alt="Settings - Light">
+                        <div class="screenshot-caption">Settings</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    What makes NNSCalc different from the built-in Windows calculator?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    NNSCalc provides enhanced memory features with multiple memory slots, persistent calculation history that survives app restarts, customizable themes, and an always-on-top mode that keeps the calculator visible while you work in other applications.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    Is NNSCalc free to download?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Yes, NNSCalc is available for free in the Microsoft Store. There are no in-app purchases or premium features - everything is included with your download.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    What operating systems does NNSCalc support?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    NNSCalc is designed for Windows 10 and Windows 11. It takes advantage of modern Windows features to provide a seamless experience on your desktop or laptop.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    How do I use the memory functions?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    NNSCalc provides multiple memory slots that you can access from the Memory panel. Use M+ to add to memory, M- to subtract from memory, MR to recall memory values, and MC to clear memory. You can also save specific values to different slots for more complex calculations.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="download" id="download">
+        <div class="container">
+            <h2 class="section-title">Get NNSCalc Today</h2>
+            <p>Download NNSCalc from the Microsoft Store for the best experience.</p>
+            <a href="https://apps.microsoft.com/detail/nnscalc/PLACEHOLDER" target="_blank">
+                <img src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Get it from Microsoft" width="200">
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>NNSCalc</h3>
+                    <p>A modern calculator application with enhanced memory functions and persistent history.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Links</h3>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#screenshots">Screenshots</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#download">Download</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 NNSCalc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for theme toggle functionality
+        function showTheme(theme) {
+            document.querySelectorAll('.theme-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.theme-display').forEach(display => {
+                display.classList.remove('active');
+            });
+            
+            document.querySelector(`#${theme}-theme`).classList.add('active');
+            document.querySelector(`.theme-tab:nth-child(${theme === 'dark' ? 1 : 2})`).classList.add('active');
+        }
+        
+        // JavaScript for FAQ toggle
+        function toggleFAQ(element) {
+            element.classList.toggle('active');
+            const toggle = element.querySelector('.faq-toggle');
+            toggle.textContent = toggle.textContent === '+' ? '-' : '+';
+        }
+    </script>
 </body>
 </html>
