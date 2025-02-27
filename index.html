@@ -1,1 +1,66 @@
-<!DOCTYPE html><html><head><title>NNSCalc</title></head><body><h1>NNSCalc - Calculator with History & Memory</h1><p>Coming soon to Microsoft Store</p></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NNSCalc</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #0078d7;
+        }
+        .verification-box {
+            background-color: #f0f0f0;
+            border-left: 4px solid #0078d7;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+            display: none; /* Hidden by default */
+        }
+        #main-content {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hidden verification section - only shown with correct query parameter -->
+    <div id="verification" class="verification-box">
+        <h2>Microsoft Store Verification Page</h2>
+        <p><strong>App Name:</strong> NNSCalc</p>
+        <p><strong>Publisher:</strong> Your Publisher Name</p>
+        <p><strong>Verification ID:</strong> MS-APP-VERIFY-A7B3C9D2E8F5</p>
+        <p>This page verifies that the app published in the Microsoft Store is associated with this website.</p>
+    </div>
+
+    <!-- Main visible content -->
+    <div id="main-content">
+        <h1>NNSCalc - Calculator with History & Memory</h1>
+        <p>Coming soon to Microsoft Store</p>
+    </div>
+
+    <script>
+        // Check for the secret verification parameter
+        function checkVerification() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const verifyParam = urlParams.get('ms_verify');
+            
+            // If the correct verification code is present, show the verification box
+            if (verifyParam === 'A7B3C9D2E8F5') {
+                document.getElementById('verification').style.display = 'block';
+                document.getElementById('main-content').style.display = 'none';
+            }
+        }
+        
+        // Run on page load
+        window.onload = checkVerification;
+    </script>
+</body>
+</html>
