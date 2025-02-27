@@ -1,0 +1,5 @@
+This is a placeholder file.
+
+IMPORTANT: Replace this with your actual MSIX/APPX bundle before submitting to Microsoft Store.
+
+The file should be named NNSCalc.msixbundle and placed in this directory. 
