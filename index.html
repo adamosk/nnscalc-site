@@ -17,80 +17,29 @@
         h1 {
             color: #0078d7;
         }
-        .verification-box {
-            background-color: #f0f0f0;
-            border-left: 4px solid #0078d7;
-            padding: 15px;
-            margin: 20px 0;
-            text-align: left;
-            display: none; /* Hidden by default */
-        }
-        #main-content {
+        img {
+            max-width: 100%;
+            height: auto;
             margin-top: 30px;
-        }
-        .download-button {
-            display: inline-block;
-            background-color: #0078d7;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-        .download-button:hover {
-            background-color: #005fa3;
-        }
-        .package-info {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #e0f0ff;
-            border-radius: 4px;
         }
     </style>
 </head>
 <body>
-    <!-- Hidden verification section - only shown with correct query parameter -->
-    <div id="verification" class="verification-box">
-        <h2>Microsoft Store Verification Page</h2>
-        <p><strong>App Name:</strong> NNSCalc</p>
-        <p><strong>Publisher:</strong> Your Publisher Name</p>
-        <p><strong>Verification ID:</strong> MS-APP-VERIFY-A7B3C9D2E8F5</p>
-        <p>This page verifies that the app published in the Microsoft Store is associated with this website.</p>
-        
-        <div class="package-info">
-            <h3>App Package Information</h3>
-            <p><strong>Version:</strong> 1.0</p>
-            <p><strong>Release Date:</strong> February 27, 2024</p>
-            <p><strong>Package Type:</strong> MSIX/APPX Bundle</p>
-            <a class="download-button" href="https://adamosk.github.io/nnscalc-site/downloads/1.0/NNSCalc.msixbundle">
-                DOWNLOAD APP PACKAGE
-            </a>
-            <p><small>Note: Replace the placeholder file with your actual MSIX/APPX bundle before submitting to Microsoft Store.</small></p>
-        </div>
+    <h1>NNSCalc - Calculator with History & Memory</h1>
+    <p>A modern, sleek calculator application with enhanced memory functions and persistent history.</p>
+    
+    <p>Coming soon to Microsoft Store</p>
+    
+    <p>
+        <a href="https://get.microsoft.com/images/en-us%20dark.svg" target="_blank">
+            <img src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Get it from Microsoft" width="200"/>
+        </a>
+    </p>
+    
+    <div>
+        <img src="images/mainview-dark.png" alt="NNSCalc Main View" width="400" />
     </div>
-
-    <!-- Main visible content -->
-    <div id="main-content">
-        <h1>NNSCalc - Calculator with History & Memory</h1>
-        <p>Coming soon to Microsoft Store</p>
-    </div>
-
-    <script>
-        // Check for the secret verification parameter
-        function checkVerification() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const verifyParam = urlParams.get('ms_verify');
-            
-            // If the correct verification code is present, show the verification box
-            if (verifyParam === 'A7B3C9D2E8F5') {
-                document.getElementById('verification').style.display = 'block';
-                document.getElementById('main-content').style.display = 'none';
-            }
-        }
-        
-        // Run on page load
-        window.onload = checkVerification;
-    </script>
+    
+    <!-- No hidden verification or download links in the public repo -->
 </body>
 </html>
